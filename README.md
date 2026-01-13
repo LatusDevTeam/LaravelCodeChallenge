@@ -24,4 +24,4 @@ The application should have the following features
 **The core aim of this challenge is to assess your Laravel knowledge and problem-solving approach.**  
 Frontend styling is optional rather than required, but feel free to include any additional UI, styling, or JavaScript if you think it adds value — we’ll take it into account.¹
 
-¹ Please don’t feel obligated to spend significant time perfecting layouts, animations, or Tailwind configurations unless that’s genuinely how you’d like to use your time.
+¹ <sup><sub>Please don’t feel obligated to spend significant time perfecting layouts, animations, or Tailwind configurations unless that’s genuinely how you’d like to use your time.</sub></sup>
