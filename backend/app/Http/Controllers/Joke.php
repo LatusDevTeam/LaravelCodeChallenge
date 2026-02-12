@@ -14,11 +14,14 @@ class Joke extends Controller
     ){}
 
     /**
-     * @return AnonymousResourceCollection
-     * @throws ConnectionException
+     * Handles the retrieval of a collection of jokes.
+     *
+     * @param Request $request The incoming HTTP request containing query parameters.
+     * @return AnonymousResourceCollection A collection of jokes wrapped in a JSON resource structure.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        return \App\Http\Resources\Joke::collection($this->joke->getTenRandomJokes());
+        $filters = $request->query('filters');
+        return \App\Http\Resources\Joke::collection($this->joke->getTenRandomJokes($filters));
     }
 }
