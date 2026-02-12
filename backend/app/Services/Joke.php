@@ -17,7 +17,7 @@ class Joke
      *                       number of jokes to retrieve, defaulting to 10 if not provided.
      * @return array An array of JokeModel objects representing the retrieved jokes.
      */
-    public function getTenRandomJokes(array $filters): array
+    public function getTenRandomJokes($filters = []): array
     {
         $limit = $filters['limit'] ?? 10;
         $resourcePath  = '/jokes/programming/ten/';
