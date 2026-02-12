@@ -1,0 +1,12 @@
+# File: `docker/database/Dockerfile`
+FROM mysql:8.0
+
+ARG MYSQL_USER=${MYSQL_USER}
+ARG MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+ENV MYSQL_USER=${MYSQL_USER}
+ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+# Copy init SQL that creates the user on first startup
+COPY init.sql /docker-entrypoint-initdb.d/init.sql
+RUN  chmod 0444 /docker-entrypoint-initdb.d/init.sql

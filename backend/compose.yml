@@ -1,0 +1,64 @@
+services:
+  php:
+    build: ./docker/backend
+    depends_on:
+      - composer
+    user: 1000:1000
+    container_name: php_container
+    expose:
+      - 9000
+    working_dir: /srv
+    networks:
+      - backend_database_network
+      - server_backend_network
+    environment:
+      - PATH=/srv/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    volumes:
+      - .:/srv
+
+  database:
+    build:
+      dockerfile: ./DOCKERFILE
+      context: ./docker/database
+      args:
+        MYSQL_USER: ${DB_USERNAME}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+    user: 1000:1000
+    container_name: database_container
+    ports:
+      - "3306:3306"
+    networks:
+      - backend_database_network
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./docker/database/data:/var/lib/mysql
+
+  composer:
+    image: composer:2
+    user: 1000:1000
+    volumes:
+      - .:/srv
+    working_dir: /srv
+    command: ["composer", "install"]
+
+  nginx:
+    image: nginx:stable
+    ports:
+      - "8080:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - .:/srv:ro
+    depends_on:
+      - php
+    networks:
+      - server_backend_network
+
+networks:
+  backend_database_network:
+    driver: bridge
+  server_backend_network:
+    driver: bridge
