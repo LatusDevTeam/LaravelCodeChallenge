@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Domain\Joke;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -22,6 +23,8 @@ class JokeControllerTest extends TestCase
                 'punchline' => "punchline $i",
             ];
         }
+
+        Joke::factory()->count(10)->make();
 
         // Fake the external API used by App\Services\Joke
         Http::fake([
